@@ -1,0 +1,12 @@
+build
+doc/hacking
+doc/librpm
+lib/backend/ndb
+lib/backend
+lib
+luaext
+misc
+python
+rpmio
+sign
+tools
