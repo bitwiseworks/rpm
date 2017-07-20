@@ -237,7 +237,11 @@ int main(int argc, char *argv[])
 		 "and erasure"));
 #endif	/* IAM_RPMEIU */
 
+#ifdef __OS2__
+    if (rpmcliRootDir && rpmcliRootDir[0] != '/' && rpmcliRootDir[1] != ':') {
+#else
     if (rpmcliRootDir && rpmcliRootDir[0] != '/') {
+#endif
 	argerror(_("arguments to --root (-r) must begin with a /"));
     }
 

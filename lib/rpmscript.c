@@ -159,7 +159,7 @@ static void doScriptExec(ARGV_const_t argv, ARGV_const_t prefixes,
 {
     int flag;
     int fdno;
-    int xx;
+    int xx = 0;
     int open_max;
 
     /* SIGPIPE is ignored in rpm, reset to default for the scriptlet */
@@ -193,12 +193,21 @@ static void doScriptExec(ARGV_const_t argv, ARGV_const_t prefixes,
     }
 
     {   char *ipath = rpmExpand("%{_install_script_path}", NULL);
+#ifdef __OS2__
+	/* On OS/2, inherit parent PATH unless overriden with %_install_script_path
+	 * as some tools may be defined w/o path in macros and they need to be
+	 * located dynamically at scriptlet run time.
+	 */
+	if (ipath && *ipath != '%')
+	    xx = setenv("PATH", ipath, 1);
+#else
 	const char *path = SCRIPT_PATH;
 
 	if (ipath && ipath[5] != '%')
 	    path = ipath;
 
 	xx = setenv("PATH", path, 1);
+#endif
 	free(ipath);
     }
 
@@ -270,6 +279,11 @@ static rpmRC runExtScript(rpmPlugins plugins, ARGV_const_t prefixes,
     rpmRC rc = RPMRC_FAIL;
 
     rpmlog(RPMLOG_DEBUG, "%s: scriptlet start\n", sname);
+
+#ifdef __OS2__ // ticket#178
+    if (!script)
+	return RPMRC_OK;
+#endif
 
     if (script) {
 	fn = writeScript(*argvp[0], script);

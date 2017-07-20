@@ -7,6 +7,9 @@
 #include <signal.h>
 #include <sys/signal.h>
 #include <errno.h>
+#ifdef __OS2__
+#include <pthread.h>
+#endif
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

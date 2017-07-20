@@ -468,6 +468,8 @@ static void setDefaults(void)
     }
 
 #ifndef MACROFILES
+    // @FIXME FIXME TODO YD this breaks upgrades...
+    // hardcoded in macrofiles listing (ticket#135)
     if (!macrofiles) {
 	macrofiles = rstrscat(NULL, confdir, "/macros", ":",
 				confdir, "/macros.d/macros.*", ":",
@@ -477,6 +479,10 @@ static void setDefaults(void)
 				SYSCONFDIR "/rpm/macros.*", ":",
 				SYSCONFDIR "/rpm/macros", ":",
 				SYSCONFDIR "/rpm/%{_target}/macros", ":",
+#ifdef __OS2__
+				confdir, "/platform/%{_target_cpu}-os2-emx/macros", ":",
+				SYSCONFDIR "/rpm/%{_target_cpu}-os2-emx/macros", ":",
+#endif
 				"~/.rpmmacros", NULL);
     }
 #else

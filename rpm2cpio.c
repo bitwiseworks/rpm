@@ -20,7 +20,12 @@ int main(int argc, char *argv[])
     int rc;
     off_t payload_size;
     FD_t gzdi;
-    
+
+#ifdef __OS2__
+    _fsetmode( stdin, "b");
+    _fsetmode( stdout, "b");
+#endif
+
     xsetprogname(argv[0]); /* Portability call -- see system.h */
 
     rpmReadConfigFiles(NULL, NULL);

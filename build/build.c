@@ -130,6 +130,9 @@ rpmRC doScript(rpmSpec spec, rpmBuildFlags what, const char *name,
 	goto exit;
     }
     
+    //CHECKME
+    if (*spec->rootDir == '\0') spec->rootDir = "/@unixroot";
+
     buildTemplate = rpmExpand(mTemplate, NULL);
     buildPost = rpmExpand(mPost, NULL);
 

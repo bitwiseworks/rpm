@@ -40,7 +40,7 @@ const char * rpmcliPipeOutput = NULL;
 
 const char * rpmcliRcfile = NULL;
 
-const char * rpmcliRootDir = "/";
+const char * rpmcliRootDir = "/@unixroot";
 
 rpmQueryFlags rpmcliQueryFlags;
 

@@ -546,6 +546,7 @@ static int rpmfcHelper(rpmfc fc, int ix,
     regex_t *exclude = NULL;
     regex_t *exclude_from = NULL;
     regex_t *global_exclude_from = NULL;
+    char N2[PATH_MAX];
 
     /* If the entire path is filtered out, there's nothing more to do */
     exclude_from = rpmfcAttrReg(depname, "exclude", "from", NULL);
@@ -568,6 +569,22 @@ static int rpmfcHelper(rpmfc fc, int ix,
     data.fc = fc;
     data.namespace = namespace;
     data.exclude = exclude;
+
+    // @TODO check fix
+#if 0
++	strcpy( N2, "");
++#ifdef __OS2__
++	// YD need to add /@unixroot/usr remapping
++	if (!strncmp( N, "/bin", 4)) {
++	    strcpy( N2, "/@unixroot/usr");
++	}
++	// YD need to add /@unixroot remapping
++	if (!strncmp( N, "/usr/bin", 8)) {
++	    strcpy( N2, "/@unixroot");
++	}
++#endif
++	strcat( N2, N);
+#endif
 
     for (int i = 0; i < pac; i++) {
 	if (parseRCPOT(NULL, fc->pkg, pav[i], tagN, ix, dsContext, addReqProvFc, &data))
